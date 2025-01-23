@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -90,12 +90,12 @@ func main() {
 				scanner.Scan()
 				data = scanner.Text()
 				if strings.EqualFold(data, "exit") {
-					fmt.Println("Программа завершила работу!")
+					log.Println("Программа завершила работу!")
 					return
 				}
 				i, err := strconv.Atoi(data)
 				if err != nil {
-					fmt.Println("Программа обрабатывает только целые числа!")
+					log.Println("Программа обрабатывает только целые числа!")
 					continue
 				}
 				source <- i
@@ -186,7 +186,7 @@ func main() {
 		for {
 			select {
 			case data := <-source:
-				fmt.Printf("Получены данные: %d\n", data)
+				log.Printf("Получены данные: %d\n", data)
 			case <-done:
 				return
 			}
@@ -197,4 +197,5 @@ func main() {
 
 	pipeline := NewPipelineInt(done, filterNegative, filterMultiplesOfThree, bufferStageInt)
 	outputPipeline(done, pipeline.Run(source))
+
 }
